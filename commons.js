@@ -2,8 +2,8 @@
 /*
  * 	Common JavaScript
  * 	note: jQuery dependent
- * 	Version:	1.059
- * 	Updated:	190319
+ * 	Version:	1.060
+ * 	Updated:	190418
  */
 
 /* -----------------------------------------------------
@@ -1870,9 +1870,11 @@ function emailOnly(a, escape) {
 }
 
 function limitLength(input, limit) {
-	$(input).keydown(function(){
+	$(input).keydown(function(ev){
+    	var key = ev.key;
 		var length = $(input).val().length;
-		return length > limit ? false : null;
+    	if ( key == "ArrowLeft" || key == "ArrowRight" || key == "Tab" || key == "Backspace" || key == "Delete" ) return true;
+		return length >= limit ? false : null;
 	});
 }
 
