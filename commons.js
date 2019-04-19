@@ -2,8 +2,8 @@
 /*
  * 	Common JavaScript
  * 	note: jQuery dependent
- * 	Version:	1.060
- * 	Updated:	190418
+ * 	Version:	1.061
+ * 	Updated:	190419
  */
 
 /* -----------------------------------------------------
@@ -1979,6 +1979,23 @@ function ajaxForm(form, url, appendData, callback) {
       callback(result);
     }
   });
+}
+
+/* ----------------------------
+ *	Get Data from Location URL
+ * ---------------------------- */
+// 190419
+
+let locationGet = () => {
+  let search = location.search.substring(1);
+  let get = {};
+  search.split("&").map(element => {
+    var key = element.split("=")[0];
+    var values = element.split("=").slice(1);
+    var value = values.join("=");
+    get[key] = value;
+  });
+  return get;
 }
 
 /* ---------------
