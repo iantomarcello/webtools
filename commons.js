@@ -2,8 +2,8 @@
 /*
  * 	Common JavaScript
  * 	note: jQuery dependent
- * 	Version:	1.061
- * 	Updated:	190419
+ * 	Version:	1.062
+ * 	Updated:	190424
  */
 
 /* -----------------------------------------------------
@@ -1984,18 +1984,18 @@ function ajaxForm(form, url, appendData, callback) {
 /* ----------------------------
  *	Get Data from Location URL
  * ---------------------------- */
-// 190419
+// 190424
 
-let locationGet = () => {
+let locationGet = (param) => {
   let search = location.search.substring(1);
   let get = {};
   search.split("&").map(element => {
     var key = element.split("=")[0];
     var values = element.split("=").slice(1);
-    var value = values.join("=");
+    var value = decodeURIComponent(values.join("="));
     get[key] = value;
   });
-  return get;
+  return param == undefined ? get : get[param];
 }
 
 /* ---------------
