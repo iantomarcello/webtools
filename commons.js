@@ -1,4 +1,3 @@
-// !minOnSave
 /*
  * 	Common JavaScript
  * 	note: jQuery dependent
@@ -1517,9 +1516,9 @@ function randomNumberRanged(max, min) {
  	return  '#'+(Math.random()*0xFFFFFF<<0).toString(16);
  }
 
- /* ----------------
-  *	Generate color
-  * ---------------- */
+ /* -----------------------
+  *	Generate random string
+  * ----------------------- */
 /// Version: 181203
 function random_str(length, keyspace, randomise) {
   keyspace == undefined ? keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' : null;
