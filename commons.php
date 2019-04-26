@@ -1,7 +1,7 @@
 <?php
 /*
  *	Commons PHP
- *	Version: 190325
+ *	Version: 190426
  */
 
 /* ===========
@@ -45,17 +45,34 @@ function returnFolder() {
 /* =====================================
  * 	Fetch File based on directory depth
  * ===================================== */
-/// 190325
+ /**
+  *	Returns the depicted file relatively or absolutely either in production or
+  *	localhost development (ignoring localhost as root directory).
+  *	Version: 190426
+	* Author: Ian Yong
+	* Site: https://github.com/iantomarcello
+  *	@param string $file, the depicted file to be returned as a string.
+  *	@param int $manual, manually offsets the directory backwards, default is 0
+  *	@param bool $manual, setting to true returns the file absolutely, setting ot false treats it as 0
+  */
 
-function returnFile($file, $manual = 0 ) {
-  $IpExplode = explode(".", $_SERVER['SERVER_NAME']);
-  $IpShift = array_shift($IpExplode);
-  if ( $_SERVER['SERVER_NAME'] == getHostByName(getHostName()) ) { $manual += 1; }
-  $folder_array = explode("/", $_SERVER["PHP_SELF"]);
-  array_shift($folder_array);
-  $folder_depth = count($folder_array);
-	return str_repeat("../", $folder_depth - ($manual + 1)) . $file;
-}
+ function returnFile($file, $manual = 0) {
+ 	$folder_array = explode("/", $_SERVER["PHP_SELF"]);
+ 	$folder_depth = count($folder_array) - 2;
+ 	$IpExplode = explode(".", $_SERVER['SERVER_NAME']);
+ 	$IpShift = array_shift($IpExplode);
+
+ 	if ( is_numeric($manual) || $manual == false) {
+ 		if ( $IpShift == "192" || $IpShift == "127" || $IpShift == "172" || $_SERVER['SERVER_NAME'] == "localhost" ) { $manual += 1; }
+ 		return str_repeat("../", $folder_depth - $manual) . $file;
+ 	} else if ( $manual == true)  {
+ 		$isDev = 0;
+ 		if ( $IpShift == "192" || $IpShift == "127" || $IpShift == "172" || $_SERVER['SERVER_NAME'] == "localhost" ) { $isDev = 1; }
+ 		$pathExplode = array_splice($folder_array, 0, (2 - $isDev));
+ 		$pathMod = join("/", $pathExplode);
+ 		return $pathMod . "/" . $file;
+ 	}
+ }
 
 /* =====================
  * 	Get Directory Files
@@ -76,6 +93,12 @@ $ext = pathinfo( $image, PATHINFO_EXTENSION );
 /* ===============
  * 	Random Colour
  * =============== */
+ /*
+  *	Returns a random colour
+  *	Version: 190426
+	* Author: Outis
+	* Source: https://stackoverflow.com/questions/5614530/generating-a-random-hex-color-code-with-php
+  */
 
 function rand_color() {
 	return '#' . str_pad( dechex( mt_rand( 0, 0xFFFFFF ) ), 6, '0', STR_PAD_LEFT );
@@ -85,9 +108,21 @@ function rand_color() {
  *  Random String
  * =============== */
 
-//	Author: Scott Arciszewski
-//	Site: 	https://stackoverflow.com/questions/4356289/php-random-string-generator/31107425#31107425
-// 	Modified : 181018
+/**
+ * Generate a random string, using a cryptographically secure
+ * pseudorandom number generator (random_int)
+ * Author: Scott Arciszewski
+ * Site: 	https://stackoverflow.com/questions/4356289/php-random-string-generator/31107425#31107425
+ *
+ * For PHP 7, random_int is a PHP core function
+ * For PHP 5.x, depends on https://github.com/paragonie/random_compat
+ *
+ * @param int $length      How many characters do we want?
+ * @param string $keyspace A string of all possible characters
+ *                         to select from
+ * @return bool $randomise Randomise the keyspace
+ * Modified : 181018, by Ian Yong, https://github.com/iantomarcello
+ */
 
 function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', $randomise = false) {
 	if ($randomise) {
@@ -164,7 +199,15 @@ function clamp($current, $min, $max) {
 /* ===============
  * 	Censor Email
  * =============== */
-/// 181205
+/**
+ * Censor email with asterisk.
+ * Version: 181205
+ * Author: Ian Yong
+ * Site: https://github.com/iantomarcello
+ *
+ * @param string $email. The email to be censored.
+ * @param int $visible. Length of the string to be uncensored starting from the front.
+ */
 
 function censor_email($email, $visible = 2) {
   if (!isset($email)) {
@@ -205,12 +248,20 @@ session_id() == '' ? session_start() : null;
 /* ============================
  * 	Compile sql in a directory
  * =========================== */
-/// 190317
+/**
+ * Compile all sql files in a directory.
+ * Version: 190426
+ * Author: Ian Yong
+ * Site: https://github.com/iantomarcello
+ *
+ * @param string $outputName. The name of the compiled sql. Should end with .sql extension.
+ * @param string $dir. The directory where the sql files are located.
+ */
 
 function compileSQL($outputName = "compile.sql", $dir = "./") {
   $dir = "./";
 
-  if ( file_exists($outputName )) {
+  if ( file_exists($outputName)) {
     unlink($outputName);
   }
 
@@ -234,10 +285,19 @@ function compileSQL($outputName = "compile.sql", $dir = "./") {
 /* ====================
  * 	Convert tsv to sql
  * ==================== */
-/// 190317
+ /**
+  * Convert tsv to sql.
+  * Version: 190426
+  * Author: Ian Yong
+  * Site: https://github.com/iantomarcello
+  *
+  * @param string $tsv. The tsv that contains the data.
+  * @param string $table. The table to be inserted.
+  * @param string $outputName. The name of the compiled sql. Should end with .sql extension.
+  */
 
-function tsv_to_sql($csv, $table, $outputName = "converted.sql") {
-  $file = file_get_contents($csv);
+function tsv_to_sql($tsv, $table, $output = "converted.sql") {
+  $file = file_get_contents($tsv);
   $file = str_replace('	', "','", $file);
 
   $breaks = explode("\n", $file);
@@ -260,11 +320,11 @@ function tsv_to_sql($csv, $table, $outputName = "converted.sql") {
     }
   }
 
-  if ( file_exists($outputName )) {
-    unlink($outputName);
+  if ( file_exists($output)) {
+    unlink($output);
   }
 
-  if ( file_put_contents($outputName, $queries) ) {
+  if ( file_put_contents($output, $queries) ) {
     return true;
   } else {
     return false;
