@@ -1,8 +1,8 @@
 /*
  * 	Common JavaScript
  * 	note: jQuery dependent
- * 	Version:	1.062
- * 	Updated:	190424
+ * 	Version:	1.063
+ * 	Updated:	190502
  */
 
 /* -----------------------------------------------------
@@ -2086,6 +2086,18 @@ const throttle = (func, limit) => {
     }
   }
 }
+
+/**
+ *	Camel Case a Sentence
+ *	Author: dexter
+ *	Source: https://stackoverflow.com/questions/4878756/how-to-capitalize-first-letter-of-each-word-like-a-2-word-city
+ */
+
+String.prototype.toCamelCaseSentence = function() {
+		return this.replace(/\w\S*/g, function(txt){
+			 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+	 });
+	}
 
 
 /// end commons.js
