@@ -1,7 +1,8 @@
-/*
+/**
  * 	LESS Styles
- * 	Update: 190403
- */
+ * 	Update: 190514
+ * 	To keep up with latest css
+**/
 
 @charset "UTF-8";
 
@@ -88,41 +89,29 @@ span {
 
 /* -------------
  *	LESS @Layout
- * ------------- */
+** ------------- */
 
 .flexCenter() {
-	display: -webkit-flex;
-	-webkit-align-items: center;
-	-webkit-justify-content: center;
-	display: -moz-box;
-	-moz-box-align: center;
-	-moz-box-pack: center;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
 .flexCenterX() {
-	display: -webkit-flex;
-	-webkit-justify-content: center;
 	display: flex;
 	justify-content: center;
 }
 
 .flexCenterY() {
-	display: -webkit-flex;
-	-webkit-align-items: center;
 	display: flex;
 	align-items: center;
 }
 
 .flexWrap() {
-	-webkit-flex-wrap: wrap;
 	flex-wrap: wrap;
 }
 
 .flexColumn() {
-	-webkit-flex-direction: column;
 	flex-direction: column;
 }
 
@@ -151,44 +140,6 @@ span {
 	flex-flow: wrap row;
 }
 
-/// 190307
-
-.flexC() {
-	.flexCenter();
-}
-
-.flexCol() {
-	.flexColumn();
-}
-
-.flexJc(@x : center) {
-	display: -webkit-flex;
-	-webkit-justify-content: @x;
-	display: flex;
-	justify-content: @x;
-}
-
-.flexJi(@x : center) {
-	display: -webkit-flex;
-	-webkit-justify-items: @x;
-	display: flex;
-	justify-items: @x;
-}
-
-.flexAc(@x : center) {
-	display: -webkit-flex;
-	-webkit-align-content: @x;
-	display: flex;
-	align-content: @x;
-}
-
-.flexAi(@x : center) {
-	display: -webkit-flex;
-	-webkit-align-items: @x;
-	display: flex;
-	align-items: @x;
-}
-
 .absCenter() {
 	left: 50%;
 	top: 50%;
@@ -208,9 +159,49 @@ span {
 	transform+_: translateY(-50%);
 }
 
+/// shorter version
+
+.flexC() {
+	.flexCenter();
+}
+
+.flexCol() {
+	.flexColumn();
+}
+
+.flexJc(@x : center) {
+	display: flex;
+	justify-content: @x;
+}
+
+.flexJi(@x : center) {
+	display: flex;
+	justify-items: @x;
+}
+
+.flexAc(@x : center) {
+	display: flex;
+	align-content: @x;
+}
+
+.flexAi(@x : center) {
+	display: flex;
+	align-items: @x;
+}
+
+.absC() {
+	.absCenter();
+}
+.absX() {
+	.absCenterX();
+}
+.absY() {
+	.absCenterY();
+}
+
 /* --------------
  *	LESS @Images
- * -------------- */
+** -------------- */
 
 .img(@object-fit) {
 	width: 100%;
@@ -237,17 +228,17 @@ span {
 	mask-image: url("../images/@{filename}");
 }
 
-.img-wrapper {
+.img-wrapper() {
 //	max-width: 390px;
 	width: 100%;
 	display: block;
 
-	.img-container {
+	.img-container() {
 		height: 0;
 		padding-bottom: 56.25%; 	//	16:9
 		position: relative;
 
-		.img {
+		.img() {
 			width: 100%;
 			height: 100%;
 			position: absolute;
@@ -259,25 +250,28 @@ span {
 
 /* -------------------
  *	LESS @Responsive
- * ------------------- */
+** ------------------- */
 
 .fluid(@max-value, @min-value, @max-vw, @min-vw) {
 	@max-value-unit: unit(@max-value, px);
 	@min-value-unit: unit(@min-value, px);
 	@min-vw-unit: unit(@min-vw, px);
 	@property: ~'calc(@{min-value-unit} + (@{max-value} - @{min-value}) * ((100vw - @{min-vw-unit})/(@{max-vw} - @{min-vw})))';
+	@fluid: @property;
 }
 .fluidA(@max-value, @min-value, @max-vw, @min-vw) {
 	@max-value-unit: unit(@max-value, px);
 	@min-value-unit: unit(@min-value, px);
 	@min-vw-unit: unit(@min-vw, px);
 	@propertyA: ~'calc(@{min-value-unit} + (@{max-value} - @{min-value}) * ((100vw - @{min-vw-unit})/(@{max-vw} - @{min-vw})))';
+	@fluidA: @propertyA;
 }
 .fluidB(@max-value, @min-value, @max-vw, @min-vw) {
 	@max-value-unit: unit(@max-value, px);
 	@min-value-unit: unit(@min-value, px);
 	@min-vw-unit: unit(@min-vw, px);
 	@propertyB: ~'calc(@{min-value-unit} + (@{max-value} - @{min-value}) * ((100vw - @{min-vw-unit})/(@{max-vw} - @{min-vw})))';
+	@fluidB: @propertyB;
 }
 
 .maxWidth(@max) {
@@ -314,19 +308,20 @@ span {
 	height: 100%;
 }
 
-.fullScreen() {
-	width: 100vw;
+.fullScreen(@screen: false){
+  & when (@screen = true){
+    width: 100vw;
 	height: 100vh;
+  }
+  & when (@screen = false){
+    width: 100%;
+	height: 100vh;
+  }
 }
-/*
-.ratio(@w, @h) {
-	width: calc()
-}
-*/
 
 /* --------
  *	@Forms
- * -------- */
+** -------- */
 
 .placeholder(@color, @fontSize: $font-size, @style: normal, @weight: 400) {
 	&:-moz-placeholder {
@@ -374,20 +369,9 @@ span {
 
 /* --------------------
  *	LESS @Miscellanous
- * -------------------- */
+** -------------------- */
 
-/// Referable to use Tween for this
-
-@keyframes loop {
-	from {
-		opacity: 0;
-		transform: translateY(8px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
+/// Referable to use Tween staggerTo() for this
 
 .loop(@n, @i: 1) when (@i =< @n) {
 	.classGoesHere:nth-child(@{i}) {
@@ -405,32 +389,31 @@ span {
 }
 // use by '.loopEase(@n)'
 
-/*
+/* -------------------------------------------
  * 	Divide elements on flex / inline / float
- */
-
+** ------------------------------------------- */
 /// breaking
 /// updated on 190228
 
 .break(@gap, @count) when ( @count = 0 ) {
-	@break: ~'calc(100% + @{gap})';
+	@break: calc(100% + @gap);
 }
 .break(@gap, @count) when ( @count > 0 ) {
-	@break: ~'calc(100% / @{count} - @{gap})';
+	@break: calc(100% / @count - @gap);
 }
 
 .breakA(@gap, @count) when ( @count = 0 ) {
-	@breakA: ~'calc(100% + @{gap})';
+	@breakA: calc(100% + @gap);
 }
 .breakA(@gap, @count) when ( @count > 0 ) {
-	@breakA: ~'calc(100% / @{count} - @{gap})';
+	@breakA: calc(100% / @count - @gap);
 }
 
 .breakB(@gap, @count) when ( @count = 0 ) {
-	@breakB: ~'calc(100% + @{gap})';
+	@breakB: calc(100% + @gap);
 }
 .breakB(@gap, @count) when ( @count > 0 ) {
-	@breakB: ~'calc(100% / @{count} - @{gap})';
+	@breakB: calc(100% / @count - @gap);
 }
 
 .mediaBreak(@winWidth, @elementWidth, @n, @i: 0) when (@n > 0) {
@@ -448,7 +431,7 @@ span {
 /// fraction
 
 .fraction(@gap, @numerator, @denominator) when ( @denominator > 1 ) {
-	@fraction: ~'calc(100% * @{numerator} / @{denominator} - @{gap})';
+	@fraction: calc(100% * @numerator / @denominator - @gap);
 }
 
 .fraction(@gap, @numerator, @denominator) when ( @denominator = @numerator ) {
@@ -456,21 +439,20 @@ span {
 }
 
 .percentage(@gap, @value) {
-	@percentage: ~'calc(@{value} - @{gap})';
+	@percentage: calc(@{value} - @{gap});
 }
 
 .percentage(@gap, @value) when ( @value = 100 ) {
 	width: 100%;
 }
 
-
-/*
+/* ----------
  * 	Parallax
- */
+** ---------- */
 
-@perspective : 100;
+// @perspective : 100;
 
-.parallax-wrapper {
+.parallax-wrapper() {
 	width: 100vw;
 	height: 100vh;
 	overflow-x: hidden;
@@ -482,13 +464,13 @@ span {
 //	perspective-origin-x: 100%;
 }
 
-.parallax-container {
+.parallax-container() {
 	position: relative !important;
 	-webkit-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 }
 
-.parallax-content {
+.parallax-content() {
 	width: 100%;
 	height: 100%;
 	.flexCenter;
@@ -504,13 +486,13 @@ span {
 	perspective-origin-x: 100%;
 }
 
-.parallax-base {
+.parallax-base() {
 	.parallax();
 	-webkit-transform: translateZ(0);
 	transform: translateZ(0);
 }
 
-.parallax-back {
+.parallax-back() {
 	-webkit-transform: translateZ(-100px) scale(2);
 	transform: translateZ(-100px) scale(2);
 }
@@ -604,6 +586,12 @@ span {
 	top: 0 !important;
 	left: 0 !important;
 	pointer-events: none !important;
+}
+
+.abs() {
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 /*

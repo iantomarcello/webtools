@@ -1,17 +1,17 @@
 /*
  * 	Common JavaScript
  * 	note: jQuery dependent
- * 	Version:	1.063
- * 	Updated:	190502
+ * 	Version:	1.064
+ * 	Updated:	190514
  */
 
 /* -----------------------------------------------------
  *										Extension
- * ----------------------------------------------------- */
+** ----------------------------------------------------- */
 
 /* --------------------------
  * 	CSS change event listener
- * -------------------------- */
+** -------------------------- */
 // deprecated as usage is complicated. See detectChange() function instead.
 
 (function () {
@@ -25,7 +25,7 @@
 
 /* -------------------------
  *	Return Selector Plugin
- * ------------------------- */
+** ------------------------- */
 
 (function ($) {
 	$.fn.Selector = function (options) {
@@ -75,7 +75,7 @@
 
 /* ---------------
  *	Sticky Plugin
- * --------------- */
+** --------------- */
 
 (function ($) {
 	$.fn.Sticky = function (options) {
@@ -184,7 +184,7 @@
 
 /* ------------------
  *	Accordion Plugin
- * ------------------ */
+** ------------------ */
 
 (function ($) {
 	$.fn.Accordion = function (options) {
@@ -342,7 +342,7 @@
 
 /* ---------------
  *	Select Plugin
- * --------------- */
+** --------------- */
 
  (function ($) {
 
@@ -443,7 +443,7 @@
 
 /* -------------------
  *	Scroll Into View
- * ------------------- */
+** ------------------- */
 
 (function ($) {
 
@@ -567,7 +567,7 @@
 
 /* ----------
  *	Tooltips
- * ---------- */
+** ---------- */
 
 (function ($) {
 
@@ -664,7 +664,7 @@
 
 /* -----------
  *	Sequencer
- * ----------- */
+** ----------- */
 
 (function ($) {
 
@@ -739,7 +739,7 @@
 
 /* --------------
  *	While Scroll 	//incomplete
- * -------------- */
+** -------------- */
 
 (function ($) {
 	$.fn.Scrolling = function (options) {
@@ -813,7 +813,7 @@
 
 /* -------------------
  *	Scroll Horizontal
- * ------------------- */
+** ------------------- */
 
  (function($) {
   	$.fn.scrollHorizontal = function(options) {
@@ -896,7 +896,7 @@
 
 /* ----------------
  *	Automate Dates
- * ---------------- */
+** ---------------- */
 
 (function ($) {
   $.fn.AutomateDates = function (options) {
@@ -1067,11 +1067,11 @@
 
 /* -----------------------------------------------------
  *						Functions
- * ----------------------------------------------------- */
+** ----------------------------------------------------- */
 
 /* ----------------------
  *	Value and Type check
- * ---------------------- */
+** ---------------------- */
 
 function check(a, b) {
 
@@ -1086,7 +1086,7 @@ function check(a, b) {
 
 /* ----------------------------------------------------
  *	Validate definition of a variable and/or constant
- * ---------------------------------------------------- */
+** ---------------------------------------------------- */
 
 function isset(a) {
 	if (typeof (a) !== 'undefined') {
@@ -1096,7 +1096,7 @@ function isset(a) {
 
 /* ----------------------
  *  Modify LESS variable
- * ---------------------- */
+** ---------------------- */
 
 function modifyLESS(property, value) {
 
@@ -1127,7 +1127,7 @@ less.modifyVars({
 
 /* ----------------
  * 	Animate Scroll
- * ---------------- */
+** ---------------- */
 //190131 renamed from 'autoScroll'
 
 function animateScroll(speed, offset) {
@@ -1176,7 +1176,7 @@ function tweenScroll(speed, offset, ease) {
 
 /* -------------------------
  *	Scroll Event Up or Down
- * ------------------------- */
+** ------------------------- */
 
 var windowLastTop = 0; // this goes outside and before scroll function
 
@@ -1195,7 +1195,7 @@ function scrollDircEvent(windowTop, fnDown, fnUp) {
 
 /* ------
  * 	Tabs
- * ------ */
+** ------ */
 
 function tab() {
 
@@ -1215,7 +1215,7 @@ function tab() {
 
 /* ---------------
  *	DetectChange
- * --------------- */
+** --------------- */
 
 /// Detect Mutation
 
@@ -1269,7 +1269,7 @@ function detectDOMChange(selector, name) {
 
 /* ---------
  *  Cookies
- * --------- */
+** --------- */
 /// 181127
 /// From W3School
 /// url: https://www.w3schools.com/js/js_cookies.asp
@@ -1311,7 +1311,7 @@ function checkCookie() {
 
 /* -----------
  *	Parallax
- * ----------- */
+** ----------- */
 // Deprecated as multiple on scroll fires slows down the site, find 'commons.less: parallax' instead
 // Works across browser tho.
 
@@ -1413,7 +1413,7 @@ function parallax(element, intensity, offset, type) {
 
 /* -------------------
  *	<img> svg to svg
- * ------------------- */
+** ------------------- */
 
 function imgToSvg() {
 	jQuery('img.svg').each(function () {
@@ -1453,7 +1453,7 @@ function imgToSvg() {
 
 /* ---------------
  * 	Sticky Things
- * --------------- */
+** --------------- */
 // deprecated, find "Sticky Plugin" instead
 
 function sticky(element, benchmark, offset) {
@@ -1469,7 +1469,7 @@ function sticky(element, benchmark, offset) {
 
 /* ---------------------------------------------------------------------
  * 	Force Footer at bottom if window height is greater that doc height
- * --------------------------------------------------------------------- */
+** --------------------------------------------------------------------- */
 
 function adaptiveFooter(element) {
 
@@ -1500,7 +1500,7 @@ function adaptiveFooter(element) {
 
 /* -----------------------------------
  *	Generate random number with range
- * ------------------------------------ */
+** ------------------------------------ */
 
 function randomNumberRanged(max, min) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -1508,7 +1508,7 @@ function randomNumberRanged(max, min) {
 
 /* ----------------
  *	Generate color
- * ---------------- */
+** ---------------- */
 // Author : Mohsen
 // Source : https://stackoverflow.com/questions/1484506/random-color-generator
 
@@ -1518,7 +1518,7 @@ function randomNumberRanged(max, min) {
 
  /* -----------------------
   *	Generate random string
-  * ----------------------- */
+ ** ----------------------- */
 /// Version: 181203
 function random_str(length, keyspace, randomise) {
   keyspace == undefined ? keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' : null;
@@ -1538,7 +1538,7 @@ function random_str(length, keyspace, randomise) {
 
 /* ---------------------------------------
  *	Force Landscape Orientation on Mobile
- * ---------------------------------------- */
+** ---------------------------------------- */
 
 function forceLandscape(float) {
 
@@ -1711,7 +1711,7 @@ monthdropdown.onchange = function () {
 
 /* ----------------------
  *	Detect Touch Device
- * ---------------------- */
+** ---------------------- */
 
 var isTouchScreen = 'ontouchstart' in document.documentElement;
 
@@ -1726,7 +1726,7 @@ else {
 
 /* ----------------
  *	Detect User Os
- * ---------------- */
+** ---------------- */
 /// Author	: Vladyslav Turak
 /// Source	: https://stackoverflow.com/questions/38241480/detect-macos-ios-windows-android-and-linux-os-with-js
 
@@ -1755,7 +1755,7 @@ function getOS() {
 
 /* ----------------
  *	Detect Server
- * ---------------- */
+** ---------------- */
 /// 181127
 /// Deprecated, use fetchFile() instead.
 
@@ -1770,7 +1770,7 @@ if ( servename === "localhost" || servename.split(".").shift() === "192" || serv
 
 /* ------------------------
  *	Detect Element Loading		// WIP
- * ------------------------ */
+** ------------------------ */
 // Not perfect if file is cached
 
 function getElementLoadingPercentage(element, callback) {
@@ -1790,7 +1790,7 @@ function getElementLoadingPercentage(element, callback) {
 
 /* -----------------------
  *	Append Uploaded Image
- * ----------------------- */
+** ----------------------- */
 // As a code instead of snippet, as each case is different
 
 function appendUploadedImage(input, output, callback) {
@@ -1821,7 +1821,7 @@ function appendUploadedImage(input, output, callback) {
 
 /* --------------
  *	Validations
- * --------------*/
+** --------------*/
 /// 190319
 
 function alphanumericsOnly(a, escape) {
@@ -1879,7 +1879,7 @@ function limitLength(input, limit) {
 
 /* --------------
  *	Ticking Time
- * --------------*/
+** --------------*/
 // 181015
 
 function getTickingTime(unit) {
@@ -1922,7 +1922,7 @@ function getTickingTime(unit) {
 
 /* ---------------------------
  *	Return numbers with comma
- * --------------------------- */
+** --------------------------- */
  // 181217
 
 const numberWithCommas = (x) => {
@@ -1941,7 +1941,7 @@ function commaNumbers(el) {
 
 /* ---------------------------------
  *	Return File or Folder from Root
- * --------------------------------- */
+** --------------------------------- */
  // previously known as fetchFile, fetch_file
  // 190228
 
@@ -1962,7 +1962,7 @@ function returnFolder() {
 
 /* ------------
  *	Ajax Form
- * ------------ */
+** ------------ */
 // 190123
 
 function ajaxForm(form, url, appendData, callback) {
@@ -1982,7 +1982,7 @@ function ajaxForm(form, url, appendData, callback) {
 
 /* ----------------------------
  *	Get Data from Location URL
- * ---------------------------- */
+** ---------------------------- */
 // 190424
 
 let locationGet = (param) => {
@@ -1999,7 +1999,7 @@ let locationGet = (param) => {
 
 /* ---------------
  *	CompletedForm
- * --------------- */
+** --------------- */
 // 190319
 
 let completedForm = (form, callback) => {
@@ -2052,7 +2052,7 @@ let completedForm = (form, callback) => {
 
 /* ------------------------
  *	Throttle and Debounce
- * ------------------------ */
+** ------------------------ */
 /// 190319
 /// author: Jhey Tompkins, url: https://codeburst.io/throttling-and-debouncing-in-javascript-b01cad5c8edf
 
