@@ -1,3 +1,4 @@
+//!minOnSave
 /*
  * 	Common JavaScript
  * 	note: jQuery dependent
@@ -2094,10 +2095,34 @@ const throttle = (func, limit) => {
  */
 
 String.prototype.toCamelCaseSentence = function() {
-		return this.replace(/\w\S*/g, function(txt){
-			 return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-	 });
-	}
+	return this.replace(/\w\S*/g, function(txt){
+		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+	});
+}
+
+/**
+ *	Map to JSON and vice versa
+ *	Author: Dr. Axel Rauschmayer
+ *	Source: http://2ality.com/2015/08/es6-map-json.html
+ * 	Note: modified for using json instead of objects
+ */
+
+function mapToJson(mapObj) {
+  let obj = {};
+  for (let [k,v] of mapObj) {
+    obj[k] = v;
+  }
+  return JSON.stringify(obj);
+}
+
+function jsonToMap(jsonObj) {
+  let strMap = new Map();
+	let obj = JSON.parse(jsonObj);
+  for (let k of Object.keys(obj)) {
+    strMap.set(k, obj[k]);
+  }
+  return strMap;
+}
 
 
 /// end commons.js
