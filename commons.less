@@ -400,24 +400,24 @@ span {
 /// updated on 190228
 
 .break(@gap, @count) when ( @count = 0 ) {
-	@break: calc(100% + @gap);
+	@break: calc(100% + ~'@{gap}');
 }
 .break(@gap, @count) when ( @count > 0 ) {
-	@break: calc(100% / @count - @gap);
+	@break: calc(100% / @count - ~'@{gap}');
 }
 
 .breakA(@gap, @count) when ( @count = 0 ) {
-	@breakA: calc(100% + @gap);
+	@breakA: calc(100% + ~'@{gap}');
 }
 .breakA(@gap, @count) when ( @count > 0 ) {
-	@breakA: calc(100% / @count - @gap);
+	@breakA: calc(100% / @count - ~'@{gap}');
 }
 
 .breakB(@gap, @count) when ( @count = 0 ) {
-	@breakB: calc(100% + @gap);
+	@breakB: calc(100% + ~'@{gap}');
 }
 .breakB(@gap, @count) when ( @count > 0 ) {
-	@breakB: calc(100% / @count - @gap);
+	@breakB: calc(100% / @count - ~'@{gap}');
 }
 
 .mediaBreak(@winWidth, @elementWidth, @n, @i: 0) when (@n > 0) {
