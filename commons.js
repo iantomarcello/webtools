@@ -2,8 +2,8 @@
 /*
  * 	Common JavaScript
  * 	note: jQuery dependent
- * 	Version:	1.064
- * 	Updated:	190514
+ * 	Version:	1.067
+ * 	Updated:	190627
  */
 
 /* -----------------------------------------------------
@@ -1961,10 +1961,11 @@ function returnFolder() {
 	return array[depth - 2];
 }
 
-/* ------------
- *	Ajax Form
-** ------------ */
-// 190123
+/**
+ *	AJAX Form submission with callback
+ *	Author: Ian Yong
+ *	Version: 190123
+ */
 
 function ajaxForm(form, url, appendData, callback) {
   var data = new FormData($(form)[0]);
@@ -1981,12 +1982,37 @@ function ajaxForm(form, url, appendData, callback) {
   });
 }
 
-/* ----------------------------
- *	Get Data from Location URL
-** ---------------------------- */
-// 190424
+/**
+ *	AJAX Form submission via promise
+ *	Author: Ian Yong
+ *	Version: 190627
+ */
 
-let locationGet = (param) => {
+const formSubmit = (form, url, appendData) => {
+	return new Promise((resolve, reject) => {
+		let data = new FormData($(form)[0]);
+		appendData !== null ? appendData(data) : null;
+		$.ajax({
+			url: url,
+			type: "post",
+			data: data,
+			processData: false,
+			contentType: false,
+			success: result => {
+				resolve(result);
+			}
+		});
+	})
+}
+
+/**
+ *	Get URL Parameters
+ *	Author: Ian Yong
+ */
+
+/// 190627
+
+const urlParam = (param) => {
   let search = location.search.substring(1);
   let get = {};
   search.split("&").map(element => {
