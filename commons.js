@@ -1921,25 +1921,6 @@ function getTickingTime(unit) {
 	return time;
 }
 
-/* ---------------------------
- *	Return numbers with comma
-** --------------------------- */
- // 181217
-
-const numberWithCommas = (x) => {
-  var parts = x.toString().split(".");
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return parts.join(".");
-}
-
-function commaNumbers(el) {
-	$(el).each(function() {
-	  var num = parseInt($(this).html());
-	  var out = numberWithCommas(num);
-	  $(this).html(out);
-	});
-}
-
 /* ---------------------------------
  *	Return File or Folder from Root
 ** --------------------------------- */
@@ -2006,8 +1987,51 @@ const formSubmit = (form, url, appendData) => {
 }
 
 /**
+ *	AJAX Form submission via promise independent from JQuery
+ *	Author: Ian Yong
+ *	Version: 190713
+ *	@returns a resolved promise with the data.
+ *	@param form is the string selector for the form HTMLFormElement.
+ *	@param url is the string path to the file which the fetch will call to.
+ *	@param options is an object with keys:
+ *		appendData, a key value pair object for additional data to be added into FormData, default is null
+ *		method, the ajax request method, default is 'post'
+ */
+
+class FormFetch {
+	constructor(form, url, options = {}) {
+    this.form = form;
+    this.formElement = document.querySelector(form);
+    this.submitButton = this.formElement.querySelector("[type=submit]"); /// disables the submit button
+    this.url = url;
+    this.appendData = options.appendData || null;
+    this.method = options.method || "post";
+	}
+
+	submit() {
+    return new Promise(resolve => {
+      event.preventDefault();
+      this.submitButton.disabled = true;
+      let formData = new FormData(this.formElement);
+
+      if ( this.appendData != null ) {
+				Object.entries(this.appendData).forEach((k,v) => formData.append(k,v));
+			}
+
+      fetch(this.url, {method: this.method, body: formData})
+      .then(response => {
+        this.submitButton.disabled = false;
+        resolve(response);
+      }).catch(error => console.error(error));
+    })
+  }
+}
+
+/**
  *	Get URL Parameters
  *	Author: Ian Yong
+ *	@returns the value to the parameter if param is specified, else returns a json of all parameters.
+ *	@param param is the string parameter in the url.
  */
 
 /// 190627
@@ -2114,16 +2138,34 @@ const throttle = (func, limit) => {
   }
 }
 
-/**
- *	Camel Case a Sentence
- *	Author: dexter
- *	Source: https://stackoverflow.com/questions/4878756/how-to-capitalize-first-letter-of-each-word-like-a-2-word-city
- */
 
-String.prototype.toCamelCaseSentence = function() {
-	return this.replace(/\w\S*/g, function(txt){
-		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-	});
+class ExString extends String {
+	constructor(string) {
+		super(string);
+	}
+
+	/**
+	 *	Pascal Case a Sentence
+	 *	Author: dexter
+	 *	Source: https://stackoverflow.com/questions/4878756/how-to-capitalize-first-letter-of-each-word-like-a-2-word-city
+	 *	Note: modified to extend String class
+	 */
+
+	toPamelCase() {
+		return this.replace(/\w\S*/g, function(txt){
+			return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+		});
+	}
+
+	/**
+	 *	Formats a string of number with commas in three
+	 */
+
+	comma() {
+		var parts = this.split(".");
+	  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	  return parts.join(".");
+	}
 }
 
 /**
