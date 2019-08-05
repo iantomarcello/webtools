@@ -450,6 +450,56 @@ span {
 	width: 100%;
 }
 
+/* ============
+ *  breakGrid
+ * ============ */
+
+.breakGrid(@gap, @num) {
+  & when (@num = 0) {
+    width: calc(100% + @gap);
+    margin-top: -@gap;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  & when (@num > 0) {
+    width: calc(100% / @num - @gap);
+    margin-right: @gap;
+    margin-top: @gap;
+    flex-shrink: 0;
+
+    /// Offsets left or right by @i
+    .offsetLoop(@i) when (@i <= @num) {
+      &.offset-@{i} {
+        margin-right: calc(100% / @num * @i + @gap);
+      }
+      &.offset-left-@{i} {
+        margin-left: calc(100% / @num * @i);
+      }
+      .offsetLoop(@i + 1);
+    }
+    .offsetLoop(1);
+
+    /// Extends by @i
+    .extendLoop(@i) when (@i < @num) {
+      &.extend-@{i} {
+        width: calc(100% / @num * @i - @gap);
+      }
+      .extendLoop(@i + 1);
+    }
+    .extendLoop(1);
+
+    /// shrink by @i
+    .shrinkLoop(@i) when (@i < @num) {
+      &.shrink-@{i} {
+        width: calc((100% / @num - @gap) / @i);
+      }
+      .shrinkLoop(@i + 1);
+    }
+    .shrinkLoop(1);
+  }
+}
+
 /* ----------
  * 	Parallax
 ** ---------- */
