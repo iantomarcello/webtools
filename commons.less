@@ -1,6 +1,6 @@
 /**
  * 	LESS Styles
- * 	Update: 190514
+ * 	Update: 190812
  * 	To keep up with latest css
 **/
 
@@ -481,18 +481,18 @@ span {
     .offsetLoop(1);
 
     /// Extends by @i
-    .extendLoop(@i) when (@i < @num) {
-      &.extend-@{i} {
+    .stretchLoop(@i) when (@i < @num) {
+      &.stretch-@{i} {
         width: calc(100% / @num * @i - @gap);
       }
-      .extendLoop(@i + 1);
+      .stretchLoop(@i + 1);
     }
-    .extendLoop(1);
+    .stretchLoop(1);
 
     /// shrink by @i
-    .shrinkLoop(@i) when (@i < @num) {
+    .shrinkLoop(@i) when (@i <= 6) {
       &.shrink-@{i} {
-        width: calc((100% / @num - @gap) / @i);
+        width: calc((100% / @num) / @i - @gap);
       }
       .shrinkLoop(@i + 1);
     }

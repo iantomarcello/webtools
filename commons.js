@@ -1823,57 +1823,79 @@ function appendUploadedImage(input, output, callback) {
 /* --------------
  *	Validations
 ** --------------*/
-/// 190319
+/// 190812
 
-function alphanumericsOnly(a, escape) {
-	$(a).keydown(function (ev) {
-		var key = ev.key;
-		if ((key >= "a" && key <= "z") || (key >= "A" && key <= "Z") || (key >= 0 && key <= 9) || key == " " || key == "." || key == "," || key == escape) {
-			return true;
-		} else {
-			return false;
-		}
-	});
+let alphanumericsOnly = (input, escape = []) => {
+  document.querySelector(input).onkeydown = (ev => {
+    var key = ev.key;
+    var allowed = [" ", ".", ",", ...escape];
+    switch (true) {
+      case (key >= "a" && key <= "z"):
+      case (key >= "A" && key <= "Z"):
+      case (key >= 0 && key <= 9):
+      case (allowed.includes(key)):
+        return true;
+        break;
+      default:
+        return false;
+    }
+  });
 }
 
-function alphabhetsOnly(a, escape) {
-	$(a).keydown(function (ev) {
-	var key = ev.key;
-		if ((key >= "a" && key <= "z") || (key >= "A" && key <= "Z") || key == " " || key == "." || key == "," || key == escape) {
-			return true;
-		} else {
-			return false;
-		}
-	});
+let alphabhetsOnly = (input, escape = []) => {
+  document.querySelector(input).onkeydown = (ev => {
+    var key = ev.key;
+    var allowed = [" ", ".", ",", ...escape];
+    switch (true) {
+      case (key >= "a" && key <= "z"):
+      case (key >= "A" && key <= "Z"):
+      case (allowed.includes(key)):
+        return true;
+        break;
+      default:
+        return false;
+    }
+  });
 }
 
-function numbersOnly(a, escape) {
-	$(a).keydown(function (ev) {
-		var key = ev.key
-		if ((key >= 0 && key <= 9) || key == "ArrowLeft" || key == "ArrowRight" || key == "Tab" || key == "Backspace" || key == "Delete" || key == "." || key == escape) {
-			return true;
-		} else {
-			return false;
-		}
-	});
+let numbersOnly = (input, escape = []) => {
+  document.querySelector(input).onkeydown = (ev => {
+    var key = ev.key;
+    var allowed = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Tab", "Backspace", "Delete", ".", ",", ...escape];
+    switch (true) {
+      case (key >= 0 && key <= 9):
+      case (escape.includes(key)):
+        return true;
+        break;
+      default:
+        return false;
+    }
+  });
 }
 
-function emailOnly(a, escape) {
-	$(a).keydown(function (ev) {
-		var key = ev.key;
-		if ((key >= "a" && key <= "z") || (key >= "A" && key <= "Z") || (key >= 0 && key <= 9) || key == "@" || key == "." || key == escape) {
-			return true;
-		} else {
-			return false;
-		}
-	});
+let emailOnly = (input, escape = []) => {
+  document.querySelector(input).onkeydown = (ev => {
+    var key = ev.key;
+    var allowed = ["@", ".", ",", "_", ...escape];
+    switch (true) {
+      case (key >= "a" && key <= "z"):
+      case (key >= "A" && key <= "Z"):
+      case (key >= 0 && key <= 9):
+      case (allowed.includes(key)):
+        return true;
+        break;
+      default:
+        return false;
+    }
+  });
 }
 
-function limitLength(input, limit) {
-	$(input).keydown(function(ev){
-    	var key = ev.key;
-		var length = $(input).val().length;
-    	if ( key == "ArrowLeft" || key == "ArrowRight" || key == "Tab" || key == "Backspace" || key == "Delete" ) return true;
+let limitLength = (input, limit) => {
+	document.querySelector(input).onkeydown = ev => {
+    var key = ev.key;
+    var allowed = ["ArrowLeft", "ArrowLeft", "ArrowUp", "ArrowDown", "Tab", "Backspace", "Delete"];
+		var length = ev.target.value.length;
+    if ( allowed.includes(key) ) return true;
 		return length >= limit ? false : null;
 	});
 }
