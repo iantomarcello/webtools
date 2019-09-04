@@ -1028,7 +1028,7 @@
       option.each(function () {
         if ($(this).val() === current_value) {
           var index = $(this).index();
-          $(option[index + add]).attr("selected", "selected");
+          $(option[index + add]).prop("selected", true);
         }
       });
     }
@@ -1044,7 +1044,7 @@
     }
 
     /* --- Change handler for months --- */
-		$month.change(function () {
+    $month.change(function () {
       var newMonth = months.indexOf($month.val()),
         newYear = $year.val(),
         newDay = $day.val();
@@ -1864,7 +1864,7 @@ let numbersOnly = (input, escape = []) => {
     var allowed = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Tab", "Backspace", "Delete", ".", ",", ...escape];
     switch (true) {
       case (key >= 0 && key <= 9):
-      case (escape.includes(key)):
+      case (allowed.includes(key)):
         return true;
         break;
       default:
