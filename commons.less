@@ -674,23 +674,29 @@ span {
 	left: 0;
 }
 
-/*
-::-webkit-scrollbar {
-    width: 10px;
+.scrollBarSize(@width: 2px, @height: 2px) {
+  scrollbar-width: if((@width > 0px), thin, none);
+
+  &::-webkit-scrollbar {
+    width: @width;
+    height: @height;
+  }
 }
 
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
+.scrollBarColour(@thumb: #d2d2d2, @track: #ededed, @thumbHover: #c2c2c2) {
+  scrollbar-color: @thumb @track;
 
-::-webkit-scrollbar-thumb {
-    background: #888;
-}
+  &::-webkit-scrollbar-track {
+    background: @track;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-*/
+  &::-webkit-scrollbar-thumb {
+    background: @thumb;
+  }
 
+  &::-webkit-scrollbar-thumb:hover {
+    background: @thumbHover;
+  }
+}
 
 /// end commons.less
