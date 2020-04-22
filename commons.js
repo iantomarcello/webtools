@@ -1897,7 +1897,7 @@ let limitLength = (input, limit) => {
 		var length = ev.target.value.length;
     if ( allowed.includes(key) ) return true;
 		return length >= limit ? false : null;
-	});
+	};
 }
 
 /* --------------
