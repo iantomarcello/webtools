@@ -1823,9 +1823,10 @@ function appendUploadedImage(input, output, callback) {
 /* --------------
  *	Validations
 ** --------------*/
-/// 190812
+/// 200422
 
 let alphanumericsOnly = (input, escape = []) => {
+  if ( document.querySelector(input) == undefined ) return;
   document.querySelector(input).onkeydown = (ev => {
     var key = ev.key;
     var allowed = [" ", ".", ",", ...escape];
@@ -1843,6 +1844,7 @@ let alphanumericsOnly = (input, escape = []) => {
 }
 
 let alphabhetsOnly = (input, escape = []) => {
+  if ( document.querySelector(input) == undefined ) return;
   document.querySelector(input).onkeydown = (ev => {
     var key = ev.key;
     var allowed = [" ", ".", ",", ...escape];
@@ -1859,6 +1861,7 @@ let alphabhetsOnly = (input, escape = []) => {
 }
 
 let numbersOnly = (input, escape = []) => {
+  if ( document.querySelector(input) == undefined ) return;
   document.querySelector(input).onkeydown = (ev => {
     var key = ev.key;
     var allowed = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Tab", "Backspace", "Delete", ".", ",", ...escape];
@@ -1874,6 +1877,7 @@ let numbersOnly = (input, escape = []) => {
 }
 
 let emailOnly = (input, escape = []) => {
+  if ( document.querySelector(input) == undefined ) return;
   document.querySelector(input).onkeydown = (ev => {
     var key = ev.key;
     var allowed = ["@", ".", ",", "_", ...escape];
@@ -1891,6 +1895,7 @@ let emailOnly = (input, escape = []) => {
 }
 
 let limitLength = (input, limit) => {
+  if ( document.querySelector(input) == undefined ) return;
 	document.querySelector(input).onkeydown = ev => {
     var key = ev.key;
     var allowed = ["ArrowLeft", "ArrowLeft", "ArrowUp", "ArrowDown", "Tab", "Backspace", "Delete"];
