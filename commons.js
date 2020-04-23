@@ -1820,76 +1820,129 @@ function appendUploadedImage(input, output, callback) {
   }
 }
 
-/* --------------
- *	Validations
-** --------------*/
-/// 200422
+/* -----------------
+ *	Limiting inputs
+** ---------------- */
+/// 200423
 
-let alphanumericsOnly = (input, escape = []) => {
-  if ( document.querySelector(input) == undefined ) return;
-  document.querySelector(input).onkeydown = (ev => {
-    var key = ev.key;
-    var allowed = [" ", ".", ",", ...escape];
-    switch (true) {
-      case (key >= "a" && key <= "z"):
-      case (key >= "A" && key <= "Z"):
-      case (key >= 0 && key <= 9):
-      case (allowed.includes(key)):
-        return true;
-        break;
-      default:
-        return false;
+let alphanumericsOnly = (input, escape = [], lengthLimit = null) => {
+  let inputElement = input instanceof HTMLElement ? input : document.querySelector(input);
+  if ( inputElement == null ) return;
+  inputElement.onkeydown = (ev => {
+    let key = ev.key;
+    let allowed = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Tab", "Backspace", "Delete", " ", ".", ",", ...escape];
+    let length = ev.target.value.length;
+    let switchStatement = () => {
+      switch (true) {
+        case (key >= "a" && key <= "z"):
+        case (key >= "A" && key <= "Z"):
+        case (key >= 0 && key <= 9):
+        case (allowed.includes(key)):
+          return true;
+          break;
+        default:
+          return false;
+      }
+    }
+    if ( lengthLimit != null ) {
+      if ( length < lengthLimit ) {
+        return switchStatement();
+      } else {
+        return ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Backspace", "Delete"].includes(key) ? true : false;
+      }
+    } else {
+      return switchStatement();
     }
   });
 }
 
-let alphabhetsOnly = (input, escape = []) => {
-  if ( document.querySelector(input) == undefined ) return;
-  document.querySelector(input).onkeydown = (ev => {
-    var key = ev.key;
-    var allowed = [" ", ".", ",", ...escape];
-    switch (true) {
-      case (key >= "a" && key <= "z"):
-      case (key >= "A" && key <= "Z"):
-      case (allowed.includes(key)):
-        return true;
-        break;
-      default:
-        return false;
+let alphabhetsOnly = (input, escape = [], lengthLimit = null) => {
+  let inputElement = input instanceof HTMLElement ? input : document.querySelector(input);
+  if ( inputElement == null ) return;
+  inputElement.onkeydown = (ev => {
+    let key = ev.key;
+    let allowed = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Tab", "Backspace", "Delete", " ", ".", ",", ...escape];
+    let length = ev.target.value.length;
+    let switchStatement = () => {
+      switch (true) {
+        case (key >= "a" && key <= "z"):
+        case (key >= "A" && key <= "Z"):
+        case (allowed.includes(key)):
+          return true;
+          break;
+        default:
+          return false;
+      }
+    }
+
+    if ( lengthLimit != null ) {
+      if ( length < lengthLimit ) {
+        return switchStatement();
+      } else {
+        return ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Backspace", "Delete"].includes(key) ? true : false;
+      }
+    } else {
+      return switchStatement();
     }
   });
 }
 
-let numbersOnly = (input, escape = []) => {
-  if ( document.querySelector(input) == undefined ) return;
-  document.querySelector(input).onkeydown = (ev => {
-    var key = ev.key;
-    var allowed = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Tab", "Backspace", "Delete", ".", ",", ...escape];
-    switch (true) {
-      case (key >= 0 && key <= 9):
-      case (allowed.includes(key)):
+let numbersOnly = (input, escape = [], lengthLimit = null) => {
+  let inputElement = input instanceof HTMLElement ? input : document.querySelector(input);
+  if ( inputElement == null ) return;
+  inputElement.onkeydown = (ev => {
+    let key = ev.key;
+    let allowed = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Tab", "Backspace", "Delete", ".", ",", ...escape];
+    let length = ev.target.value.length;
+    let switchStatement = () => {
+      switch (true) {
+        case (key >= 0 && key <= 9):
+        case (allowed.includes(key)):
         return true;
         break;
-      default:
+        default:
         return false;
+      }
+    }
+    if ( lengthLimit != null ) {
+      if ( length < lengthLimit ) {
+        return switchStatement();
+      } else {
+        return ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Backspace", "Delete"].includes(key) ? true : false;
+      }
+    } else {
+      return switchStatement();
     }
   });
 }
 
-let emailOnly = (input, escape = []) => {
-  if ( document.querySelector(input) == undefined ) return;
-  document.querySelector(input).onkeydown = (ev => {
-    var key = ev.key;
-    var allowed = ["@", ".", ",", "_", ...escape];
-    switch (true) {
-      case (key >= "a" && key <= "z"):
-      case (key >= "A" && key <= "Z"):
-      case (key >= 0 && key <= 9):
-      case (allowed.includes(key)):
-        return true;
-        break;
-      default:
-        return false;
+let emailOnly = (input, escape = [], lengthLimit = null) => {
+  let inputElement = input instanceof HTMLElement ? input : document.querySelector(input);
+  if ( inputElement == null ) return;
+  inputElement.onkeydown = (ev => {
+    let key = ev.key;
+    let allowed = ["@", ".", ",", "_", "!", "#", "$", "%", "&", "'", "*", "+", "-", "/", "=", "?", "^", "`", "{", "|", "}", "~", ...escape];
+    let length = ev.target.value.length;
+    let switchStatement = () => {
+      switch (true) {
+        case (key >= "a" && key <= "z"):
+        case (key >= "A" && key <= "Z"):
+        case (key >= 0 && key <= 9):
+        case (allowed.includes(key)):
+          return true;
+          break;
+        default:
+          return false;
+      }
+    }
+    if ( lengthLimit != null ) {
+      if ( length < lengthLimit ) {
+        return switchStatement();
+      } else {
+        return ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Backspace", "Delete"].includes(key) ? true : false;
+      }
+    } else {
+      return switchStatement();
     }
   });
 }
