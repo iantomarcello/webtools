@@ -1,9 +1,7 @@
-//!minOnSave
 /*
  * 	Common JavaScript
- * 	note: jQuery dependent
- * 	Version:	1.067
- * 	Updated:	190627
+ * 	Version:	1.068
+ * 	Updated:	201019
  */
 
 /* -----------------------------------------------------
@@ -2272,5 +2270,142 @@ function jsonToMap(jsonObj) {
   return strMap;
 }
 
+/**
+ *  Bootstrap Modal Wrapper Class
+ *  A wrapper class that creates and appends a Bootstrap Modal.
+ *  @param {string} id, a html id given to the modal.
+ *  @param {OBject HTMLElement} element, the html element container for the modal to append to.
+ */
+
+let modalTemplate = document.createElement("template");
+modalTemplate.innerHTML =
+`<div class="modal fade" tabindex="-1" role="dialog" style="display: none" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>`;
+
+class BSModal {
+  constructor(id = null, element = document.body) {
+    this.element = element;
+    this.modal = modalTemplate.content.cloneNode(true);
+    this.modal.querySelector(".modal").setAttribute("id", id);
+    this.element.append(this.modal);
+    this.$modal = $(this.element.querySelector("#" + id));
+    // this.$modal = $(this.modal);
+
+    this.$modal.on("hidden.bs.modal", ev => {
+      this.$modal.modal("dispose");
+      while ( this.$modal.lastChild ) this.$modal.lastChild.remove();
+      this.$modal.remove();
+      $("body").removeAttr("style")
+      this.hiddenCallback(this);
+    })
+    this.$modal.on("shown.bs.modal", ev => {
+      this.shownCallback(this);
+    })
+
+    window.addEventListener("keyup", ev => {
+      if ( ev.key === "Enter" ) {
+        this.close();
+      }
+    });
+  }
+
+  /**
+   *  Launches the modal by default.
+   *  Should probably be the method to call after contentModify.
+   *  @param options, the option for the Bootstrap Modal.
+   */
+  launch(options = "show") {
+    document.body.style.overflow = "hidden";
+    this.$modal.modal(options);
+    return this;
+  }
+
+  /**
+   *  Closes the modal by default.
+   *  Should probably be the method to call after contentModify.
+   *  @param options, the option for the Bootstrap Modal.
+   */
+  close(options = "hide") {
+    this.$modal.modal(options);
+    return this;
+  }
+
+  /**
+   *  Appends a html string or HTMLElement to a specific part of default Bootstrap Modal.
+   *  @param selector, the query selector for the part of modal to be filled up with content.
+   *  @param htmlContent, html string or HTMLElement to be added into the said selector.
+   */
+  contentModify(selector, htmlContent) {
+    if ( typeof htmlContent === "string" ) {
+      this.$modal.find(selector).html(htmlContent);
+    } else if ( typeof htmlContent === "object" ) {
+      this.$modal.find(selector)[0].appendChild(htmlContent);
+    } else {
+      console.error(`contentModify() second param should be a html string or a DOM Node`);
+    }
+    return this;
+  }
+
+  /**
+   *  Removes a HTMLElement of default Bootstrap Modal.
+   *  @param selector, the query selector for the part of modal to be removed.
+   */
+  contentRemove(selector) {
+    this.$modal.find(selector).remove();
+    return this;
+  }
+
+  /**
+   *  Technically a callback function where the modal is passed as a parameter.
+   *  @param fn, the function.
+   *  @example
+   *    leModalVariable.chain(modal => {
+   *      // do something with modal
+   *    })
+   */
+  chain(fn = null) {
+    fn !== null ? fn(this) : null;
+    return this;
+  }
+
+  /**
+   *  Callbacks that fires on Bootstrap Modal "show.bs.modal" and "hide.bs.modal" respectively.
+   */
+  hiddenCallback() { return null; }
+  shownCallback() { return null; }
+}
+
+/**
+ *  Simple Bootstrap Modal Wrapper Class
+ *  Bootstrap Modal Wrapper Class stripped down to show a short message.
+ *  @param message string, the short message.
+ */
+
+class BSModalSimple extends BSModal {
+  constructor(message) {
+    super("modal-simple");
+    this.message = message;
+
+    this.contentRemove(".modal-body")
+    this.contentRemove(".modal-footer");
+    this.contentModify(".modal-title", this.message);
+    return this.launch();
+  }
+}
 
 /// end commons.js
