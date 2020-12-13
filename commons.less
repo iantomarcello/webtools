@@ -1,6 +1,6 @@
 /**
  * 	LESS Styles
- * 	Update: 200407
+ * 	Update: 201213
  * 	To keep up with latest css
 **/
 
@@ -31,7 +31,6 @@ time, mark, audio, video, input, button, textarea {
   padding-inline-end: 0;
   padding-block-end: 0;
 	// vertical-align: baseline;
-	line-height: 1;
 	box-sizing: border-box;
 }
 
@@ -88,14 +87,22 @@ button, input, select {
 	border: none;
 }
 
-p, span {
-	line-height: inherit;
-}
-
 span {
   font-weight: inherit;
   font-family: inherit;
+  font-size: inherit;
+  color: inherit;
 }
+
+figure {
+  .fullSize();
+}
+
+img {
+  .fullSize();
+  object-fit: contain;
+}
+
 
 /* -------------
  *	LESS @Layout
